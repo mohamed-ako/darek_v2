@@ -39,8 +39,10 @@ class DarekProfile extends Controller
         
         if ($firstUser) {
             $myuserID = $firstUser->id;
+
+    
+            Session::put('adminUserId',$myuserID);
             
-            // Retrieve offers of the user
             $myoffers = Property::where('user_id', $myuserID)->get();
 
             // Retrieve favorite properties of the user
@@ -231,6 +233,52 @@ public function updateProfilePicture(Request $request)
     }
 }
 
+    public function storeFormData(Request $request)
+    {
+        // return response()->json([
+        //     'city' => $request->input('city'),
+        //     'location' => $request->input('location'),
+        //     'status' => $request->input('status'),
+        //     'price' => $request->input('price'),
+        //    ' property_type' => $request->input('propertyType'),
+        //     'payment_type' => $request->input('paymentType'),
+        //     'user_id' => $request->session()->get('adminUserId'), 
+        // ]);
+        // Validate the request data
+        // $validatedData = $request->validate([
+        //     'city' => 'required|string',
+        //     'location' => 'required|string',
+        //     'status' => 'required|in:Available,Not Available', 
+        //     'price' => 'required|numeric',
+        //     'propertyType' => 'required|in:House,Apartment,Villa,Other', 
+        //     'paymentType' => 'required|in:Rent per day,Rent per month,Rent per week,Sale'
+        // ]);
 
+        $property = new Property();
+        $property->city = $request->input('city');
+        $property->location = $request->input('location');
+        $property->status = $request->input('status');
+        $property->price = $request->input('price');
+        $property->property_type = $request->input('propertyType');
+        $property->payment_type = $request->input('paymentType');
+        $property->user_id = $request->session()->get('adminUserId'); // Use session method instead of Session facade
 
+        // Save the property
+        if ($property->save()) {
+            return redirect('Home'); // Adjust the route name as needed
+            
+        //     return response()->json(['message' => 'Property data submitted successfully',
+        
+        //    'city : '=> $property->city ,
+        //     'location :'=>$property->location,
+        //     'status : '=>$property->status,
+        //     'price : '=>$property->price ,
+        //     'property_type : '=>$property->property_type,
+        //     'payment_type : '=>$property->payment_type,
+        //     "user_id : " => $property->user_id 
+        // ], 200);
+        } else {
+            return response()->json(['message' => 'Failed to submit property data'], 500);
+        }
+    }
 };

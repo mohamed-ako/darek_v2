@@ -14,5 +14,7 @@ export default function InfoPrperty({ children }) {
 }
 export const SenderUserContext = createContext({
     Sender_user: 10,
-    setSender_user: () => {}, // Default setter function
+    setSender_user: () => {
+        Sender_user;
+    },
 });

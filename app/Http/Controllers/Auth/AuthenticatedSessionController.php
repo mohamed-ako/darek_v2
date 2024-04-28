@@ -83,6 +83,12 @@ class AuthenticatedSessionController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('Darek/Login');
+        // return redirect()->intended(RouteServiceProvider::HOME);
+
+        // return redirect('Home');
+
+        // return route('Darek/Login');
+        return redirect('Login');
+
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Property;
+use Inertia\Inertia;
 
 class AdminController extends Controller
 {
@@ -15,13 +17,15 @@ class AdminController extends Controller
 
     public function profile()
     {
-  
         if (Auth::check()) {
-            $id = Auth::user()->id;
-            $adminData = User::find($id);
-            return inertia('Darek/admin_profile',  ['adminData' => $adminData]);
+            $adminData = Auth::user();
+            $properties = Property::with('images')->get(); // Eager load images
+
+            return Inertia::render('Darek/admin_profile', [
+                'adminData' => $adminData,
+                'properties' => $properties
+            ]);
         } else {
-          
             return redirect()->route('login');
         }
     }

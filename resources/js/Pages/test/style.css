@@ -1,0 +1,172 @@
+nav {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    padding-inline: 20px;
+    background-color: #ba0101;
+    padding: 10px;
+  }
+  nav {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 10px;
+    border: 2px solid white;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    border: 1px solid rgb(25, 113, 255);
+  }
+  nav :hover {
+    background-color: rgba(32, 1, 25, 0.37);
+    /* width: 100%;
+    height: 100%; */
+    border: 0px;
+  }
+  .prod {
+    border-radius: 8px;
+  
+    width: 40%;
+    display: flex;
+    flex-flow: column;
+    background-color: #ba0101;
+    padding: 10px;
+    color: black;
+    margin: 10px;
+  }
+  .prod > h2 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+  }
+  .prod > div {
+    background-color: white;
+    border-radius: 8px;
+  
+    display: flex;
+    flex-flow: column;
+    /* width: 23%; */
+  }
+  .prod p {
+    padding-inline: 10px;
+  }
+  .prds {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  button {
+    background-color: #ba0101 !important;
+    border: 0px;
+    color: white;
+    padding: 10px;
+    margin: 8px;
+    border-radius: 8px;
+  }
+  main {
+    display: flex;
+    flex-flow: column wrap;
+    width: 100vw;
+    justify-content: space-around;
+    align-items: center;
+    /* background-color: red; */
+  }
+  main * {
+    font-size: large;
+    margin: 10px;
+  }
+  .about div {
+    display: flex;
+    flex-flow: column wrap;
+    width: 100vw;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid rgb(147, 0, 0);
+    border-radius: 10px;
+    background-color: rgba(232, 0, 0, 0.356);
+  }
+  .about div * {
+    font-weight: 600;
+  }
+  .about input,
+  .about select {
+    height: 60px;
+    width: 120px;
+    text-align: center;
+    border: 3px solid rgb(147, 0, 0);
+    border-radius: 10px;
+    background-color: rgba(232, 0, 0, 0.356);
+  }
+  .about .opr {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+  .about .res {
+    font-size: x-large;
+    width: 80%;
+  }
+  .about .oprs {
+    display: flex;
+    flex-flow: row;
+    height: 100%;
+    justify-content: space-around;
+  }
+  .about form{
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+      align-items: center;
+  }
+  .signup form {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    width: 90%;
+    margin: 10px auto;
+    justify-items: center;
+    justify-self: center;
+  }
+  .signup input {
+    height: 60px;
+    margin: 10px;
+    /* width: 120px; */
+    text-align: center;
+    border: 3px solid rgb(147, 0, 0);
+    border-radius: 10px;
+    background-color: rgba(232, 0, 0, 0.356);
+  }
+  .signup input[type="submit"] {
+    background-color: #ba0101;
+    border: 0px;
+    color: white;
+    padding: 10px;
+    margin: 8px;
+    border-radius: 8px;
+  }
+  .signup h1 {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+
+  /* PropertyComponent.css */
+.property {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .property h2 {
+    color: #333;
+  }
+  
+  .property p {
+    margin: 5px 0;
+  }

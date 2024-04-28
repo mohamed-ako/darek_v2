@@ -76,6 +76,8 @@ class Kernel extends HttpKernel
         'M1' => \App\Http\Middleware\M1::class,
         'M2' => \App\Http\Middleware\M2::class,
         'M3' => \App\Http\Middleware\M3::class,
+        'msgAuth' => \App\Http\Middleware\msgAuth::class,
+
 
 
     ];

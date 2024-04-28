@@ -1,0 +1,13 @@
+h1 {
+    color: red;
+    text-align: center;
+    margin: 50px auto;
+    display: block;
+}
+.h1 {
+    color: blue;
+
+    text-align: center;
+    margin: 50px auto;
+    display: block;
+}

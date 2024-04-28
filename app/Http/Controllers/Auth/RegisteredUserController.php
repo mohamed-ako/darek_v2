@@ -23,7 +23,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        // return Inertia::render('Auth/Register');
+        return Inertia::render('Darek/Register');
+
     }
 
     /**
@@ -59,7 +61,12 @@ class RegisteredUserController extends Controller
         // Session::put('controlleremail', $myemail);
 
         // return redirect(RouteServiceProvider::HOME);
-        return redirect('Darek/Login');
+        return redirect('Login');
+        // return redirect('dareklogin');
+        // return Inertia::render('Darek/Login');
+
+        // return redirect('')
+
 
     }
 }

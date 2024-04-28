@@ -6,7 +6,7 @@ import Publisher from "./Darek/Publisher";
 import Logout from "./Darek/Logout";
 import Navbar from "./NavBar";
 import Login from "./Darek/Login";
-import Signup from "./Darek/Signup";
+import Signup from "./Darek/Register";
 import InfoPrperty from "./Darek/InfoPrperty";
 
 const Index = () => {
