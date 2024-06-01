@@ -26,7 +26,7 @@ const PropertyList = ({ propertiesWithImages }) => {
                     key={property.id}
                     onClick={() => {
                         infoFunction(property.property_id);
-                        // alert(property.property_id);
+                        
                     }}
                 >
                     <div className="details">
@@ -38,7 +38,7 @@ const PropertyList = ({ propertiesWithImages }) => {
                         <p>Payment Type: {property.payment_type}</p>
                         <p>Property Id: {property.property_id}</p>
 
-                        {/* <button >Info</button> */}
+                       
                         <div>
                             {property.images.map((image) => {
                                 console.log(

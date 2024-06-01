@@ -50,13 +50,8 @@ Route::post('update_profile_picture', [DarekProfile::class, 'updateProfilePictur
 
 
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-});
 
-Route::get('/Index', function () {
-    return Inertia::render('Index');
-});
+
 
 
 // Route::get('Darek/Home', [DarekHome::class, 'search'])->name('DarekHome');
@@ -93,9 +88,9 @@ Route::get('AppMessage', function () {
     return Inertia::render('Darek/AppMessage');
 })->name('DarekSearchInfo');
 
-Route::get('InfoPrperty', function () {
-    return Inertia::render('Darek/InfoPrperty');
-})->name('InfoPrperty');
+Route::get('infoProprety', function () {
+    return Inertia::render('Darek/infoProprety');
+})->name('infoProprety');
 // Route::get('MyMessages?{}', function () {
 //     return Inertia::render('Darek/MyMessages');
 // })->name('MyMessages');
@@ -106,12 +101,17 @@ Route::get('InfoPrperty', function () {
 // Route::get('testv', function () {
 //     return view('testv');
 // })->name('InfoPrperty');
+
 Route::post('properties/search', [DarekHome::class, 'search']);
 Route::post('MessageToUser', [DarekHome::class, 'addMessage']);
 Route::post('MessageTest', [DarekHome::class, 'myMessage']);
 Route::get('MyMessages', [DarekHome::class, 'getAllMessage']);
 Route::get('AppMessage', [DarekHome::class, 'getMessage'])->middleware('msgAuth');
 Route::post('GetAllMessage', [DarekHome::class, 'getAllMessage']);
+Route::post('sendMessage', [DarekHome::class, 'sendMessage']);
+Route::get('/getmyMessage', [DarekHome::class, 'getmyMessage'])->name('getmyMessage');
+
+
 // Route::post('GetAllMessage', [DarekHome::class, 'getAllMessage']);
 // Route::get('MessagesList', [DarekHome::class, 'MessagesList']);
 Route::get('MyChats', [DarekHome::class, 'MessagesList']);
@@ -125,12 +125,13 @@ Route::resource('test',RoutTest::class);
 Route::get('SearchInfo', [DarekHome::class, 'searchData'])->name('DarekSearchInfo');
 
 
-
 Route::get('Home', [DarekHome::class, 'index']);
+Route::get('/', [DarekHome::class, 'index']);
+
 Route::get('MyMessages', [DarekHome::class, 'MessagesList'])->name('MyMessages');
 Route::post('/info-page', [DarekHome::class,'info']);
 // Route::resources('Darek/Home',DarekHome::class);
-Route::get('/info-page', [DarekHome::class, 'info'])->name('info-page');
+Route::get('/InfoPrperty/{id}', [DarekHome::class, 'InfoPrperty'])->name('InfoPrperty');
 // -------------------------------------------------------------------------
 
 

@@ -1,4 +1,4 @@
-import React, {
+import {
     useEffect,
     useState,
     useContext,
@@ -10,18 +10,18 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Inertia } from "@inertiajs/inertia";
 import { useParams } from "react-router-dom";
 // import { SenderUserContext } from './SenderUserContext';
-import InfoPrperty, { SenderUserContext } from "./InfoPrperty"; // Import the context
+import InfoPrperty from "./InfoPrperty"; // Import the context
 import ProfileUserInfo from "./ProfileUserInfo";
 import ProfileFavProperty from "./ProfileFavProperty";
 import ProfileOffers from "./ProfileOffers";
 import AppMessage from "./AppMessage";
 import Navbar from "./NavBar";
 
-export const SenderUserAdminContext = createContext({
-    admin_user: null,
-    setAdmin_user: () => {},
-});
-console.log("SenderUserAdminContext : => ", SenderUserAdminContext);
+// export const SenderUserAdminContext = createContext({
+//     admin_user: null,
+//     setAdmin_user: () => {},
+// });
+// console.log("SenderUserAdminContext : => ", SenderUserAdminContext);
 export default function Profile({
     myusers,
     message,

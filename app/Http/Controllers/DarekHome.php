@@ -104,16 +104,37 @@ Log::info('Filtered Properties:', $filteredPropertiesArray);
         // return Inertia::share('filteredProperties', $filteredProperties);
         public function addMessage(Request $request)
         {
-            $adminEmail='';
- 
-            $adminEmail = Session::get('controlleremail');
-            $message = new Message();
-            $message->fill($request->all());
-            $message->save();
+
+    $validated = $request->validate([
+        'sender_id' => 'required|integer',
+        'receiver_id' => 'required|integer',
+        'message' => 'required|string',
+    ]);
+
+    // Create a new Message instance
+    $message = new Message();
+    $message->sender_id = $validated['sender_id'];
+    $message->receiver_id = $validated['receiver_id'];
+    $message->message = $validated['message'];
+
+    // Save the message
+    $message->save();
+
+    // Log the saved message
+    Log::info('Message values:', $message->toArray());
+
+    // Redirect to the MyMessages route
+    return redirect()->route('MyMessages'); // Adjust the route name as needed
+
+
+            // $message->fill($request->all());
+            // $message->save();
 
             
-            Log::info('Message values:', $message->toArray());
-            return redirect()->route('MyMessages'); // Adjust the route name as needed
+            // Log::info('Message values:', $message->toArray());
+            // return redirect()->route('MyMessages');
+            
+            // Adjust the route name as needed
             
             // return response()->json(['message' => 'Message added successfully', 'value' => $message,'adminEmail'=>$adminEmail], 201)->header('X-Inertia-Reload', 'true');;
         }
@@ -139,7 +160,7 @@ Log::info('Filtered Properties:', $filteredPropertiesArray);
                 Session::put('users', $users);
 
                 
-                $IdConvers = $request->get('IdConvers', 3); // Default to conversation ID 3 if not provided
+                $IdConvers = $request->get('IdConvers'); // Default to conversation ID 3 if not provided
                 $messages = Message::where('conversation_id', $IdConvers)->get();
             
                 $adminEmail = Session::get('controlleremail');
@@ -155,33 +176,10 @@ Log::info('Filtered Properties:', $filteredPropertiesArray);
 
                 ]);
             }
-            
-    //         Log::info('Request: ' . json_encode($request->all()));
 
-    //         $data = $request->get('IdConvers');
-    //         if(isset($data)){
-    //         $idConv = $data;
-    //         };
-
-    //         Log::info('Conversation ID: ' . $idConv .' || '. $data);
-    //         // Log::info('Conversation_DATA: ' . $data);
-
-    //         $messages = Message::where('conversation_id', $idConv)->get();
-        
-
-    //         return Inertia::render('Darek/AppMessage', [
-    //         "conversations"=> $conversations,
-    //         'users' => $users,
-    //         'messages' => $messages,
-    //         'adminEmail' => $adminEmail
-    // ]);
-            
-    //         // return response()->json(['messages' => $messages], 200);
-
-    //     }
         public function getAllMessage(Request $request) {
             Session::put('IdConvers', $request->get('IdConvers'));
-            return redirect()->route('MyMessages'); // Adjust the route name as needed
+            return redirect()->route('MyMessages');
 
         }
 
@@ -190,54 +188,115 @@ Log::info('Filtered Properties:', $filteredPropertiesArray);
 
             Log::info('Request: of id convers' . json_encode($request->all()));
         
-            // Retrieve the conversation ID from the request
-            // $IdConvers = $request->get('IdConvers');
-            // $idConv = 2;
+           
             $IdConvers = Session::get('IdConvers');
         
-            // Log the conversation ID
         
-            // $idConv = $request->get('IdConvers', 3); // Default to conversation ID 3 if not provided
             $messages = Message::where('conversation_id', $IdConvers)->get();
             Log::info('Conversation ID in MessagesList : ' . $IdConvers);
         
-            // Render the Inertia view with the messages
-            // return json_decode($messages);
             return Inertia::render('Darek/MyMessages', ['messagesData' => $messages,
             'IdConvers' => $IdConvers,
             'users' => Session::get('users'),
             'IdAdmin'=>Session::get('adminUserId')
         ]);
-            // return Inertia::render('Darek/MyMessages', ['messagesData' => $messages,'IdConvers' => $IdConvers]);
         }
+        public function sendMessage(Request $request) {
+            Session::put('receiver_id', $request->get('receiver_id'));
+
+    
+        $validated = $request->validate([
+            'sender_id' => 'required|integer',
+            'receiver_id' => 'required|integer',
+            'message' => 'required|string',
+        ]);
+ 
+        $message = new Message();
+        $message->sender_id = $validated['sender_id'];
+        $message->receiver_id = $validated['receiver_id'];
+        $message->message = $validated['message'];
+    
+        $message->save();
+    
+        Log::info('Message values:', $message->toArray());
+
+
+        return redirect()->route('getmyMessage');  
+    // return redirect()->route('InfoPrperty', ['id' => $id]);
+
+
+        }
+        public function getmyMessage(Request $request)
+        {
+
+            $receiver_id = Session::get('receiver_id');
+            $adminUserId = Session::get('adminUserId');
+            Log::info('Receiver ID: ' . $receiver_id);
+        
+            Log::info('Admin ID: ' . $adminUserId);
+        
+            $conversationIds = Message::where(function ($query) use ($receiver_id, $adminUserId) {
+                    $query->where('sender_id', $receiver_id)
+                        ->orWhere('receiver_id', $receiver_id);
+                })
+                ->where(function ($query) use ($receiver_id, $adminUserId) {
+                    $query->where('sender_id', $adminUserId)
+                        ->orWhere('receiver_id', $adminUserId);
+                })
+                ->distinct()
+                ->pluck('conversation_id');
+        
+            // Fetch messages in this conversation
+            $messages = Message::whereIn('conversation_id', $conversationIds)->get();
+        
+            // Fetch sender and receiver details
+            $senderDetails = User::whereIn('id', function ($query) use ($conversationIds) {
+                    $query->select('sender_id')
+                        ->from('messages')
+                        ->whereIn('conversation_id', $conversationIds);
+                })->select('id', 'first_name', 'last_name')->get();
+        
+            $receiverDetails = User::whereIn('id', function ($query) use ($conversationIds) {
+                    $query->select('receiver_id')
+                        ->from('messages')
+                        ->whereIn('conversation_id', $conversationIds);
+                })->select('id', 'first_name', 'last_name')->get();
+        
+            $users = $senderDetails->merge($receiverDetails);
+        
+            // Use the first conversation ID as IdConvers
+            $IdConvers = $conversationIds->first();
+        
+            return Inertia::render('Darek/MyMessages', [
+                'messagesData' => $messages,
+                'IdConvers' => $IdConvers,
+                'users' => $users,
+                'IdAdmin' => $adminUserId,
+            ]);
+        }
+        
+
+
         public function info(Request $request)
 
 {
-    // $id = $request->input('id');
+    
     $id = $request->get('id');
+    
+    return redirect()->route('InfoPrperty', ['id' => $id]);
 
-
-    $idUser = User::where('id', $id)->get();
-
-    // Retrieve the parameters from the request
-    $city = $request->input('city');
-    $type = $request->input('type');
-
-    // Check if the parameters are being received correctly
-    // Log or dump them for debugging purposes
-    // This will help you verify if the parameters are being sent from the frontend
-    Log::info('ID: ' . $id);
-    Log::info('City: ' . $city);
-    Log::info('Type: ' . $type);
-
-    // Now you can use these parameters as needed
-
-    // For example, you can pass them to a view
-    // return response()->json($idUser);
-
-    return view("/info-page", compact('id', 'city', 'type'));
 }
-        
+public function InfoPrperty(Request $request, $id)
+{
+    $Property = Property::where('property_id', $id)->first();
+    $PropertyImage = PropertyImage::where('property_id', $id)->get();
+
+    $user_id = $Property->user_id;
+    
+    $User = User::where('id',$user_id )->first();
+
+    return Inertia::render("Darek/InfoPrperty", ['User'=>$User,'Property'=>$Property ,'PropertyImage'=>$PropertyImage,'IdAdmin'=>Session::get('adminUserId')]);
+   }     
         
 
 
