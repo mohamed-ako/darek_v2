@@ -1,3 +1,17 @@
+# Property Management System
+## Overview
+This is a full-stack application for managing property listings, built as part of a final-year educational project. The system allows users to upload properties for rent or purchase. It is developed using Laravel with Breeze for the backend, React for the frontend, and MySQL for the database.
+
+## Features
+User Authentication: Users can register, log in, and manage their profiles.
+Property Listings: Users can upload, view, and manage properties for rent or sale.
+Search and Filters: Users can search for properties and apply filters to refine their search.
+Responsive Design: The application is designed to be fully responsive and user-friendly on all devices.
+## Tech Stack
+Frontend: React
+Backend: Laravel with Breeze
+Database: MySQL
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
